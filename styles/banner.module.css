@@ -17,6 +17,7 @@
 }
 
 .title2 {
+  padding: 0;
   display: block;
   color: var(--text-purple);
 }
@@ -111,10 +112,6 @@
   .title {
     font-size: 4.5rem /* 72px */;
     line-height: 1;
-  }
-
-  .title2 {
-    padding-left: 0.5rem;
   }
 
   .subTitle {
