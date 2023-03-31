@@ -1,6 +1,5 @@
 import Head from "next/head";
 import Image from "next/image";
-import { Inter } from "next/font/google";
 import styles from "@components/styles/Home.module.css";
 import Banner from "@components/components/Banner";
 
