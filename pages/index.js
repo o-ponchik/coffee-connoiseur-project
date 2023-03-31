@@ -4,8 +4,6 @@ import { Inter } from "next/font/google";
 import styles from "@components/styles/Home.module.css";
 import Banner from "@components/components/Banner";
 
-const inter = Inter({ subsets: ["latin"] });
-
 export default function Home() {
   const handleOnBannerBtnClick = () => {
     console.log("Banner btn clicked");
@@ -27,6 +25,14 @@ export default function Home() {
           buttonText="View stores nearby"
           handleOnClick={handleOnBannerBtnClick}
         />
+        <div className={styles.heroImage}>
+          <Image
+            src={"/static/hero-image.png"}
+            width={700}
+            height={400}
+            alt="Coffee brake image"
+          />
+        </div>
       </main>
     </>
   );
