@@ -2,6 +2,7 @@ import Head from "next/head";
 import Image from "next/image";
 import styles from "@components/styles/Home.module.css";
 import Banner from "@components/components/Banner";
+import Card from "../components/Card";
 
 export default function Home() {
   const handleOnBannerBtnClick = () => {
@@ -32,6 +33,11 @@ export default function Home() {
             alt="Coffee brake image"
           />
         </div>
+        <Card
+          name="Dark Coffee"
+          ImgUrl="/static/hero-image.png"
+          href="/coffee-store/dark-coffee"
+        />
       </main>
     </>
   );

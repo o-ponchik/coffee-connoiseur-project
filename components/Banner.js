@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../styles/banner.module.css";
+import styles from "./Banner.module.css";
 import { Caveat } from "next/font/google";
 
 const caveat = Caveat({ subsets: ["latin"] });
