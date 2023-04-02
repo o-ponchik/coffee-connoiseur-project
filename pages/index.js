@@ -33,11 +33,14 @@ export default function Home() {
             alt="Coffee brake image"
           />
         </div>
-        <Card
-          name="Dark Coffee"
-          ImgUrl="/static/hero-image.png"
-          href="/coffee-store/dark-coffee"
-        />
+        <div className={styles.cardLayout}>
+          <Card
+            name="Dark Coffee"
+            ImgUrl="/static/hero-image.png"
+            href="/coffee-store/dark-coffee"
+            className={styles.card}
+          />
+        </div>
       </main>
     </>
   );
