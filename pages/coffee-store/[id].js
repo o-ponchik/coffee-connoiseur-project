@@ -6,24 +6,29 @@ import coffeeStoresData from "../../data/coffee-stores.json";
 import Head from "next/head";
 import Image from "next/image";
 import cls from "classnames";
+import { fetchCoffeeStores } from "../../lib/coffee-stores";
 
 // API KEY = fsq3NMjrTuweck41J+T6RSKmkWLYKhHVn97hMRmavQ9byRc=
 
 export async function getStaticProps(staticProps) {
   const params = staticProps.params;
 
+  const coffeeStores = await fetchCoffeeStores();
+
   return {
     props: {
-      coffeeStores: coffeeStoresData.find((coffeeStore) => {
-        return coffeeStore.id.toString() === params.id;
+      coffeeStores: coffeeStores.find((coffeeStore) => {
+        return coffeeStore.fsq_id.toString() === params.id;
       }),
     },
   };
 }
 
 export async function getStaticPaths() {
-  const paths = coffeeStoresData.map((coffeeStore) => {
-    return { params: { id: coffeeStore.id.toString() } };
+  const coffeeStores = await fetchCoffeeStores();
+  console.log("getStaticPaths coffeeStores:", coffeeStores);
+  const paths = coffeeStores.map((coffeeStore) => {
+    return { params: { id: coffeeStore.fsq_id.toString() } };
   });
 
   return {
