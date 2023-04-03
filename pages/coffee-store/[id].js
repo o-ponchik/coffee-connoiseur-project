@@ -7,6 +7,8 @@ import Head from "next/head";
 import Image from "next/image";
 import cls from "classnames";
 
+// API KEY = fsq3NMjrTuweck41J+T6RSKmkWLYKhHVn97hMRmavQ9byRc=
+
 export async function getStaticProps(staticProps) {
   const params = staticProps.params;
 
