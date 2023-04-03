@@ -45,7 +45,7 @@ const CoffeeStore = (props) => {
     return <div>Loading...</div>;
   }
 
-  const { address, name, neighbourhood, imgUrl } = props.coffeeStores;
+  const { location, name, imgUrl } = props.coffeeStores;
 
   const handleUpvoteButton = () => {
     console.log("Voted!");
@@ -66,7 +66,10 @@ const CoffeeStore = (props) => {
           </div>
 
           <Image
-            src={imgUrl}
+            src={
+              imgUrl ||
+              "https://images.unsplash.com/photo-1504753793650-d4a2b783c15e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2000&q=80"
+            }
             width={600}
             height={360}
             className={styles.storeImg}
@@ -82,7 +85,7 @@ const CoffeeStore = (props) => {
               height={24}
               alt="Location icon"
             />
-            <p className={styles.text}>{address}</p>
+            <p className={styles.text}>{location.address}</p>
           </div>
           <div className={styles.iconWrapper}>
             <Image
@@ -91,7 +94,7 @@ const CoffeeStore = (props) => {
               height={24}
               alt="Near me icon"
             />
-            <p className={styles.text}>{neighbourhood}</p>
+            <p className={styles.text}>{location.locality}</p>
           </div>
           <div className={styles.iconWrapper}>
             <Image
