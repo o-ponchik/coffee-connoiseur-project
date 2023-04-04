@@ -17,7 +17,7 @@ export async function getStaticProps(staticProps) {
   return {
     props: {
       coffeeStores: coffeeStores.find((coffeeStore) => {
-        return coffeeStore.fsq_id.toString() === params.id;
+        return coffeeStore.id.toString() === params.id;
       }),
     },
   };
@@ -27,7 +27,7 @@ export async function getStaticPaths() {
   const coffeeStores = await fetchCoffeeStores();
   console.log("getStaticPaths coffeeStores:", coffeeStores);
   const paths = coffeeStores.map((coffeeStore) => {
-    return { params: { id: coffeeStore.fsq_id.toString() } };
+    return { params: { id: coffeeStore.id.toString() } };
   });
 
   return {
@@ -44,7 +44,9 @@ const CoffeeStore = (props) => {
     return <div>Loading...</div>;
   }
 
-  const { id, name, address, neighbourhood, imgUrl } = props.coffeeStores;
+  const { name, address, neighbourhood, imgUrl } = props.coffeeStores;
+
+  console.log("results", props.coffeeStores);
 
   const handleUpvoteButton = () => {
     console.log("Voted!");
@@ -58,7 +60,7 @@ const CoffeeStore = (props) => {
       <div className={styles.container}>
         <div className={styles.col1}>
           <div className={styles.backToHomeLink}>
-            <Link href={"/"}>Back to Home</Link>
+            <Link href={"/"}>← Back to Home</Link>
           </div>
           <div className={styles.nameWrapper}>
             <h1 className={styles.name}>{name}</h1>
