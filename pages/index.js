@@ -3,7 +3,6 @@ import Image from "next/image";
 import styles from "@components/styles/Home.module.css";
 import Banner from "@components/components/Banner";
 import Card from "../components/Card";
-import coffeeStoresData from "../data/coffee-stores.json";
 import { fetchCoffeeStores } from "../lib/coffee-stores";
 
 export async function getStaticProps(context) {
