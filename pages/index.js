@@ -5,7 +5,9 @@ import Banner from "@components/components/Banner";
 import Card from "../components/Card";
 import { fetchCoffeeStores } from "../lib/coffee-stores";
 import useTrackLocation from "../hooks/use-track-location";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+
+//////////////////
 
 export async function getStaticProps(context) {
   const coffeeStores = await fetchCoffeeStores();
@@ -15,10 +17,13 @@ export async function getStaticProps(context) {
   };
 }
 
+/////////////////COMPONENT///////////////
+
 export default function Home(props) {
   const { handleTrackLocation, locationErrorMsg, latLong, isFindingLocation } =
     useTrackLocation();
-  console.log({ latLong, locationErrorMsg });
+  const [coffeeStores, setCoffeeStores] = useState("");
+  const [coffeeStoresError, setCoffeeStoresError] = useState(null);
 
   useEffect(() => {
     async function setCoffeeStoresByLocation() {
@@ -26,8 +31,10 @@ export default function Home(props) {
         try {
           const fetchCoffeeStoresData = await fetchCoffeeStores(latLong, 30);
           console.log({ fetchCoffeeStoresData });
+          setCoffeeStores(fetchCoffeeStoresData);
         } catch (error) {
-          // set error
+          console.log({ error });
+          setCoffeeStoresError(error.message);
         }
       }
     }
@@ -56,7 +63,9 @@ export default function Home(props) {
           buttonText={isFindingLocation ? "Locating..." : "View stores nearby"}
           handleOnClick={handleOnBannerBtnClick}
         />
+
         {locationErrorMsg && <p>Something went wrong: {locationErrorMsg}</p>}
+        {coffeeStoresError && <p>Something went wrong: {coffeeStoresError}</p>}
 
         <div className={styles.heroImage}>
           <Image
@@ -66,6 +75,29 @@ export default function Home(props) {
             alt="Coffee brake image"
           />
         </div>
+        <div className={styles.sectionWrapper}>
+          {coffeeStores.length > 0 && (
+            <>
+              <h2 className={styles.heading2}>Stores near me</h2>
+              <div className={styles.cardLayout}>
+                {coffeeStores.map((store) => (
+                  <Card
+                    id={store.id}
+                    key={store.id}
+                    name={store.name}
+                    ImgUrl={
+                      store.imgUrl ||
+                      "https://images.unsplash.com/photo-1504753793650-d4a2b783c15e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2000&q=80"
+                    }
+                    href={`/coffee-store/${store.id}`}
+                    className={styles.card}
+                  />
+                ))}
+              </div>
+            </>
+          )}
+        </div>
+
         <div className={styles.sectionWrapper}>
           {props.coffeeStores.length > 0 && (
             <>
