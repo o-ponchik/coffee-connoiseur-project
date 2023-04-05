@@ -18,7 +18,7 @@ const storeReducer = (state, action) => {
       return { ...state, latLong: action.payload.latLong };
     }
     case ACTION_TYPES.SET_COFFEE_STORES: {
-      return { ...state, coffeeStores: action.payload.latLong };
+      return { ...state, coffeeStores: action.payload.coffeeStores };
     }
     default:
       throw new Error(`Unhandled action type: ${action.type}`);
