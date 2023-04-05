@@ -6,7 +6,7 @@ import Head from "next/head";
 import Image from "next/image";
 import cls from "classnames";
 import { fetchCoffeeStores } from "../../lib/coffee-stores";
-import { StoreContext } from "../_app";
+import { StoreContext } from "@components/store/store-context";
 import { isEmpty } from "@components/utils";
 
 ///////////////////////getStaticProps//////////////////////////
