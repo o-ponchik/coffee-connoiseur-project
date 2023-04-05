@@ -5,7 +5,7 @@ import { createContext, useReducer } from "react";
 
 const openSans = Open_Sans({ subsets: ["latin"], weight: "400" });
 
-const StoreContext = createContext();
+export const StoreContext = createContext();
 
 export const ACTION_TYPES = {
   SET_LAT_LONG: "SET_LAT_LONG",
