@@ -1,12 +1,4 @@
-const Airtable = require("airtable");
-
-const base = new Airtable({ apiKey: process.env.AIRTABLE_API_TOKEN }).base(
-  process.env.AIRTABLE_BASE_ID
-);
-
-const table = base("Coffee-stores");
-
-console.log({ table });
+import { table, getMinifiedRecords } from "../../lib/airtable";
 
 const createCoffeeStore = async (req, res) => {
   if (req.method === "POST") {
@@ -21,14 +13,9 @@ const createCoffeeStore = async (req, res) => {
           })
           .firstPage();
 
-        const records = findCoffeeStoreRecords.map((record) => {
-          return { ...record.fields };
-        });
-
-        console.log({ records });
-
         if (findCoffeeStoreRecords.length !== 0) {
           // if it exists - return
+          const records = getMinifiedRecords(findCoffeeStoreRecords);
 
           res.json(records);
         } else {
@@ -47,9 +34,7 @@ const createCoffeeStore = async (req, res) => {
               },
             ]);
 
-            const records = createdRecord.map((record) => {
-              return { ...record.fields };
-            });
+            const records = getMinifiedRecords(createdRecord);
 
             res.json({ message: "create a record", records });
           } else {
