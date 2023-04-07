@@ -91,8 +91,11 @@ const CoffeeStore = (initialProps) => {
           hanldeCreateCoffeeStore(coffeeStoreFromContext);
         }
       }
+    } else {
+      // SSG
+      hanldeCreateCoffeeStore(initialProps.coffeeStores);
     }
-  }, [id]);
+  }, [id, initialProps, initialProps.coffeeStores]);
 
   if (router.isFallback) {
     return <div>Loading...</div>;
