@@ -103,8 +103,11 @@ const CoffeeStore = (initialProps) => {
 
   const { name, address, neighbourhood, imgUrl } = coffeeStore;
 
+  const [votingCount, setVotingCount] = useState(1);
+
   const handleUpvoteButton = () => {
     console.log("Voted!");
+    setVotingCount((prev) => prev + 1);
   };
 
   return (
@@ -163,7 +166,7 @@ const CoffeeStore = (initialProps) => {
               height={24}
               alt="Star icon"
             />
-            <p className={styles.text}>1</p>
+            <p className={styles.text}>{votingCount}</p>
           </div>
           <button className={styles.upvoteButton} onClick={handleUpvoteButton}>
             Up Vote!
