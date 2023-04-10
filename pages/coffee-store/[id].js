@@ -8,6 +8,7 @@ import cls from "classnames";
 import { fetchCoffeeStores } from "../../lib/coffee-stores";
 import { StoreContext } from "@components/store/store-context";
 import { isEmpty } from "@components/utils";
+import useSWR from "swr";
 
 ///////////////////////getStaticProps//////////////////////////
 
@@ -43,6 +44,8 @@ export async function getStaticPaths() {
 }
 
 ///////////////////////COMPONENT//////////////////////////
+
+const fetcher = (url) => fetch(url).then((r) => r.json());
 
 const CoffeeStore = (initialProps) => {
   const router = useRouter();
@@ -105,9 +108,43 @@ const CoffeeStore = (initialProps) => {
 
   const [votingCount, setVotingCount] = useState(1);
 
-  const handleUpvoteButton = () => {
+  const { data, error } = useSWR(`/api/getCoffeeStoreById?id=${id}`, fetcher);
+
+  useEffect(() => {
+    console.log("data from SWR", data);
+    if (data && data.length > 0) {
+      setCoffeeStore(data[0]);
+      setVotingCount(data[0].voting);
+    }
+  }, [data]);
+
+  if (error) {
+    return <div>Something went wrong retrieving coffee store page</div>;
+  }
+
+  const handleUpvoteButton = async () => {
     console.log("Voted!");
-    setVotingCount((prev) => prev + 1);
+
+    try {
+      const response = await fetch("/api/favoriteCoffeeStoreById", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id,
+        }),
+      });
+
+      const dbCoffeeStore = await response.json();
+      console.log({ dbCoffeeStore });
+
+      if (dbCoffeeStore && dbCoffeeStore.length > 0) {
+        setVotingCount((prev) => prev + 1);
+      }
+    } catch (error) {
+      console.error("Error upvoting the coffee store", error);
+    }
   };
 
   return (
