@@ -38,8 +38,6 @@ export default function Home(props) {
           );
           const results = await response.json();
 
-          console.log({ results });
-
           dispatch({
             type: ACTION_TYPES.SET_COFFEE_STORES,
             payload: { coffeeStores: results },
@@ -47,7 +45,6 @@ export default function Home(props) {
 
           setCoffeeStoresError("");
         } catch (error) {
-          console.log({ error });
           setCoffeeStoresError(error.message);
         }
       }
@@ -57,7 +54,6 @@ export default function Home(props) {
   }, [latLong]);
 
   const handleOnBannerBtnClick = () => {
-    console.log("Banner btn clicked");
     handleTrackLocation();
   };
 
