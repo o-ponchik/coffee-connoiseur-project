@@ -8,6 +8,8 @@ import cls from "classnames";
 import { fetchCoffeeStores } from "../../lib/coffee-stores";
 import { StoreContext } from "@components/store/store-context";
 import { isEmpty } from "@components/utils";
+import getCoffeeStoreById from "../api/getCoffeeStoreById";
+import { findRecordById } from "@components/lib/airtable";
 import useSWR from "swr";
 
 ///////////////////////getStaticProps//////////////////////////
@@ -23,7 +25,7 @@ export async function getStaticProps(staticProps) {
 
   return {
     props: {
-      coffeeStores: findCoffeeStoreById ? findCoffeeStoreById : {},
+      coffeeStore: findCoffeeStoreById ? findCoffeeStoreById : {},
     },
   };
 }
@@ -51,13 +53,15 @@ const CoffeeStore = (initialProps) => {
   const router = useRouter();
   const { id } = router.query;
 
-  const [coffeeStore, setCoffeeStore] = useState(initialProps.coffeeStores);
+  const [coffeeStore, setCoffeeStore] = useState(
+    initialProps.coffeeStore || {}
+  );
 
   const {
     state: { coffeeStores },
   } = useContext(StoreContext);
 
-  const hanldeCreateCoffeeStore = async (coffeeStore) => {
+  const handleCreateCoffeeStore = async (coffeeStore) => {
     try {
       const { id, name, address, neighbourhood, voting, imgUrl } = coffeeStore;
       const response = await fetch("/api/createCoffeeStore", {
@@ -70,7 +74,7 @@ const CoffeeStore = (initialProps) => {
           name,
           address: address || "",
           neighbourhood: neighbourhood || "",
-          voting,
+          voting: 0,
           imgUrl,
         }),
       });
@@ -82,28 +86,26 @@ const CoffeeStore = (initialProps) => {
   };
 
   useEffect(() => {
-    if (isEmpty(initialProps.coffeeStores)) {
+    if (isEmpty(initialProps.coffeeStore)) {
       if (coffeeStores.length > 0) {
-        const coffeeStoreFromContext = coffeeStores.find((coffeeStore) => {
-          return coffeeStore.id.toString() === id;
+        const findCoffeeStoreById = coffeeStores.find((coffeeStore) => {
+          return coffeeStore.id.toString() === id; //dynamic id
         });
-
-        if (coffeeStoreFromContext) {
-          setCoffeeStore(coffeeStoreFromContext);
-          hanldeCreateCoffeeStore(coffeeStoreFromContext);
-        }
+        setCoffeeStore(findCoffeeStoreById);
+        handleCreateCoffeeStore(findCoffeeStoreById);
       }
     } else {
       // SSG
-      hanldeCreateCoffeeStore(initialProps.coffeeStores);
+      handleCreateCoffeeStore(initialProps.coffeeStore);
     }
-  }, [id, initialProps, initialProps.coffeeStores]);
+  }, [id, initialProps.coffeeStore, coffeeStores]);
 
-  if (router.isFallback) {
-    return <div>Loading...</div>;
-  }
-
-  const { name, address, neighbourhood, imgUrl } = coffeeStore;
+  const {
+    name = "",
+    address = "",
+    neighbourhood = "",
+    imgUrl = "",
+  } = coffeeStore;
 
   const [votingCount, setVotingCount] = useState(0);
 
@@ -115,6 +117,10 @@ const CoffeeStore = (initialProps) => {
       setVotingCount(data[0].voting);
     }
   }, [data]);
+
+  if (router.isFallback) {
+    return <div>Loading...</div>;
+  }
 
   if (error) {
     return <div>Something went wrong retrieving coffee store page</div>;

@@ -9,6 +9,9 @@ const nextConfig = {
       },
     ],
   },
+  env: {
+    AIRTABLE_API_KEY: process.env.AIRTABLE_API_TOKEN,
+  },
 };
 
 module.exports = nextConfig;
