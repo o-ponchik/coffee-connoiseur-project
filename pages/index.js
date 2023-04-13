@@ -63,7 +63,7 @@ export default function Home(props) {
         <title>Coffee Connoisseur</title>
         <meta
           name="description"
-          content="Coffee Connoisseur. Explore coffe stores near you!"
+          content="Coffee Connoisseur. Explore coffee stores near you!"
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
